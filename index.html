@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mis 15 Años - Isabella Rojas Zuluaga</title>
+    
+    <!-- SEO & WhatsApp Share Metadata -->
+    <meta name="description" content="¡Estás invitado a la mágica celebración de los 15 Años de Isabella Rojas Zuluaga! Viernes 23 de Octubre - Eventos Prestige.">
+    <meta property="og:title" content="👑 Mis 15 Años - Isabella Rojas Zuluaga">
+    <meta property="og:description" content="Acompáñame a celebrar una noche llena de magia y linternas flotantes. Confirma tu asistencia aquí.">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#2c0f47">
+
+    <!-- Stylesheets & Fonts -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Background Animated Canvas for Floating Sky Lanterns -->
+    <canvas id="lanternCanvas"></canvas>
+
+    <!-- Glowing Background Ambient Orbs -->
+    <div class="bg-glow-orb orb-1"></div>
+    <div class="bg-glow-orb orb-2"></div>
+    <div class="bg-glow-orb orb-3"></div>
+
+    <!-- Floating Music Control Button -->
+    <div class="audio-control">
+        <button id="audioToggleBtn" class="audio-btn" aria-label="Reproducir música ambient de Rapunzel">
+            <i class="fas fa-music"></i>
+        </button>
+    </div>
+
+    <!-- Mobile Viewport Container -->
+    <div class="app-container">
+
+        <!-- HERO SECTION -->
+        <header class="hero-section">
+            <!-- Tiara Vector Icon -->
+            <svg class="tiara-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 15L62 40L85 25L75 65H25L15 25L38 40L50 15Z" fill="url(#goldGrad)" stroke="#FFD700" stroke-width="2"/>
+                <circle cx="50" cy="15" r="4" fill="#FFF"/>
+                <circle cx="85" cy="25" r="3" fill="#FFF"/>
+                <circle cx="15" cy="25" r="3" fill="#FFF"/>
+                <defs>
+                    <linearGradient id="goldGrad" x1="0" y1="0" x2="100" y2="100">
+                        <stop offset="0%" stop-color="#FFD700"/>
+                        <stop offset="100%" stop-color="#FFA000"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+
+            <p class="subtitle-top">Mis 15 Años</p>
+            <h1 class="hero-title">Isabella</h1>
+            <p class="hero-name">Rojas Zuluaga</p>
+
+            <!-- Corona Kingdom Sun Symbol -->
+            <svg class="corona-sun" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="18" fill="#FFC107"/>
+                <!-- Sun Rays -->
+                <path d="M50 5 L50 22 M50 78 L50 95 M5 50 L22 50 M78 50 L95 50" stroke="#FFC107" stroke-width="4" stroke-linecap="round"/>
+                <path d="M18 18 L30 30 M70 70 L82 82 M18 82 L30 70 M70 30 L82 18" stroke="#FFC107" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="50" cy="50" r="10" fill="#FFE082"/>
+            </svg>
+
+            <p class="invitation-quote">
+                "Veo en ti la luz deslumbrar, y al fin la noche se encendió... Acompáñame a vivir la magia de mis 15 años."
+            </p>
+        </header>
+
+        <!-- COUNTDOWN TIMER CARD -->
+        <section class="glass-card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fas fa-hourglass-half"></i> Cuenta Regresiva</h2>
+            </div>
+            <div class="timer-grid">
+                <div class="timer-box">
+                    <div id="timerDays" class="timer-number">00</div>
+                    <div class="timer-label">Días</div>
+                </div>
+                <div class="timer-box">
+                    <div id="timerHours" class="timer-number">00</div>
+                    <div class="timer-label">Horas</div>
+                </div>
+                <div class="timer-box">
+                    <div id="timerMins" class="timer-number">00</div>
+                    <div class="timer-label">Min</div>
+                </div>
+                <div class="timer-box">
+                    <div id="timerSecs" class="timer-number">00</div>
+                    <div class="timer-label">Seg</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DATE & TIME BADGE -->
+        <section class="glass-card">
+            <div class="date-badge">
+                <div class="date-day">Viernes</div>
+                <div class="date-full">23 DE OCTUBRE</div>
+                <div class="date-time"><i class="far fa-clock"></i> 7:00 PM</div>
+            </div>
+            <button class="btn btn-outline" style="width: 100%;" onclick="addToCalendar()">
+                <i class="far fa-calendar-plus"></i> Agendar en mi Calendario
+            </button>
+        </section>
+
+        <!-- LOCATION CARD -->
+        <section class="glass-card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fas fa-map-marker-alt"></i> Recepción & Lugar</h2>
+            </div>
+            <h3 class="location-name">Eventos Prestige</h3>
+            <p class="location-address">Calle 52 #46-47<br>Bello, Antioquia</p>
+
+            <div class="btn-group">
+                <a href="https://www.google.com/maps/search/?api=1&query=Eventos+Prestige+Calle+52+%2346-47+Bello+Antioquia" target="_blank" class="btn btn-gold">
+                    <i class="fas fa-location-arrow"></i> Google Maps
+                </a>
+                <a href="https://waze.com/ul?q=Eventos%20Prestige%20Bello%20Antioquia&navigate=yes" target="_blank" class="btn btn-outline">
+                    <i class="fab fa-waze"></i> Waze
+                </a>
+            </div>
+        </section>
+
+        <!-- DRESS CODE CARD -->
+        <section class="glass-card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fas fa-user-tie"></i> Código de Vestimenta</h2>
+            </div>
+            <div class="dress-code-box">
+                <i class="fas fa-user-ninja" style="font-size: 2.2rem; color: var(--gold-bright); margin-bottom: 10px;"></i>
+                <div>
+                    <span class="black-tag">SEMIFORMAL DE NEGRO</span>
+                </div>
+                <p class="dress-desc">
+                    Te invitamos a vestir con elegancia en **tono negro** para resaltar el brillo de esta noche inolvidable.
+                </p>
+            </div>
+        </section>
+
+        <!-- GIFT CARD (LLUVIA DE SOBRES) -->
+        <section class="glass-card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fas fa-envelope-open-text"></i> Lluvia de Sobres</h2>
+            </div>
+            <div class="gift-box">
+                <div class="envelope-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <p class="dress-desc" style="font-size: 0.95rem; margin-bottom: 15px;">
+                    Tu presencia es mi mejor regalo. Si deseas realizar un obsequio, podrás colocar tu sobre en la caja especial el día del evento.
+                </p>
+                <button class="btn btn-outline" onclick="copyEnvelopeInfo()">
+                    <i class="far fa-copy"></i> Copiar Detalles
+                </button>
+            </div>
+        </section>
+
+        <!-- EVENT TIMELINE / ITINERARY -->
+        <section class="glass-card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fas fa-list-ol"></i> Itinerario Mágico</h2>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-time">07:00 PM</div>
+                    <div class="timeline-title">Llegada de Invitados & Cóctel de Bienvenida</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-time">08:15 PM</div>
+                    <div class="timeline-title">Entrada Triunfal de Isabella</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-time">08:45 PM</div>
+                    <div class="timeline-title">Vals Real de 15 Años & Brindis</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-time">09:30 PM</div>
+                    <div class="timeline-title">Cena de Gala</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-time">10:30 PM</div>
+                    <div class="timeline-title">Apertura de Pista & Fiesta de las Linternas</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE LANTERN WISHES -->
+        <section class="glass-card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fas fa-lightbulb"></i> Eleva tu Linterna Mágica</h2>
+            </div>
+            <div class="lantern-interactive-box">
+                <p class="dress-desc" style="margin-bottom: 12px;">
+                    Escribe un deseo o mensaje especial para Isabella y toca el botón para elevar una linterna flotante al cielo. (También puedes tocar cualquier parte de la pantalla).
+                </p>
+                <input type="text" id="wishInput" class="wish-input" placeholder="Escribe tu deseo aquí..." maxlength="100">
+                <button id="sendWishBtn" class="btn btn-gold" style="width: 100%;">
+                    <i class="fas fa-paper-plane"></i> Elevar mi Linterna ✨
+                </button>
+            </div>
+        </section>
+
+        <!-- RSVP WHATSAPP CALL TO ACTION -->
+        <section class="glass-card" style="border: 1.5px solid var(--gold-bright);">
+            <div class="card-header">
+                <h2 class="card-title" style="font-size: 1.4rem;"><i class="fab fa-whatsapp"></i> Confirmación</h2>
+            </div>
+            <p class="dress-desc" style="text-align: center;">
+                Por favor confirma tu asistencia antes del 10 de Octubre para reservar tu lugar especial.
+            </p>
+            <button id="openRsvpBtn" class="btn btn-whatsapp">
+                <i class="fab fa-whatsapp"></i> CONFIRMAR ASISTENCIA
+            </button>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer-text">
+            <p class="footer-quote">Isabella Rojas Zuluaga</p>
+            <p>¡Te espero para celebrar juntos una noche de ensueño!</p>
+            <p style="margin-top: 15px; font-size: 0.7rem; opacity: 0.6;">✨ Creado con magia para los 15 de Isabella ✨</p>
+        </footer>
+
+    </div>
+
+    <!-- RSVP MODAL WINDOW -->
+    <div id="rsvpModal" class="modal-overlay">
+        <div class="modal-card">
+            <button id="closeRsvpBtn" class="modal-close">&times;</button>
+            <h3 class="modal-title">Confirmar Asistencia</h3>
+            
+            <div class="form-group">
+                <label class="form-label" for="guestName">Tu Nombre Completo *</label>
+                <input type="text" id="guestName" class="form-control" placeholder="Ej. Ana María Gómez" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="guestPasses">Número de Asistentes</label>
+                <select id="guestPasses" class="form-control">
+                    <option value="1">1 Persona (Solo yo)</option>
+                    <option value="2">2 Personas</option>
+                    <option value="3">3 Personas</option>
+                    <option value="4">4 Personas</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="guestNote">Mensaje para Isabella (Opcional)</label>
+                <textarea id="guestNote" class="form-control" rows="2" placeholder="¡Felicidades Isa!"></textarea>
+            </div>
+
+            <button id="sendWhatsappBtn" class="btn btn-whatsapp" style="margin-top: 10px;">
+                <i class="fab fa-whatsapp"></i> Enviar a WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
