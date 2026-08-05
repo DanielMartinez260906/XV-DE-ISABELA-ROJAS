@@ -1,5 +1,5 @@
 /* ==========================================================================
-   XV de Isabella Rojas Zuluaga - Rapunzel Interactive Script
+   XV de Isabella Rojas Zuluaga - Light Lilac Rapunzel Interactive Script
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -49,7 +49,7 @@ function initCountdown() {
 }
 
 /* ==========================================
-   2. Floating Sky Lanterns Canvas Animation
+   2. Floating Sky Lanterns Canvas Animation (Light Background Optimized)
    ========================================== */
 let lanternParticles = [];
 
@@ -67,15 +67,14 @@ function initLanternCanvas() {
     });
 
     // Create initial lanterns
-    const lanternCount = 25;
+    const lanternCount = 28;
     for (let i = 0; i < lanternCount; i++) {
         lanternParticles.push(createLantern(width, height, true));
     }
 
     // Touch / Click to release a new lantern with a wish!
     window.addEventListener('click', (e) => {
-        // Don't trigger if clicking interactive buttons or inputs
-        if (e.target.closest('button, input, a, .modal-card')) return;
+        if (e.target.closest('button, input, select, textarea, a, .modal-card')) return;
         spawnUserLantern(e.clientX, e.clientY);
     });
 
@@ -87,37 +86,36 @@ function initLanternCanvas() {
             l.x += Math.sin(l.wobble) * l.speedX;
             l.wobble += 0.02;
 
-            // Draw floating glowing lantern
             ctx.save();
             ctx.translate(l.x, l.y);
 
-            // Outer glow
-            const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, l.size * 2.5);
-            gradient.addColorStop(0, `rgba(255, 215, 0, ${l.opacity * 0.8})`);
-            gradient.addColorStop(0.5, `rgba(255, 140, 0, ${l.opacity * 0.4})`);
-            gradient.addColorStop(1, 'rgba(255, 140, 0, 0)');
+            // Outer golden glow visible on light background
+            const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, l.size * 2.8);
+            gradient.addColorStop(0, `rgba(245, 158, 11, ${l.opacity * 0.85})`);
+            gradient.addColorStop(0.5, `rgba(217, 119, 6, ${l.opacity * 0.45})`);
+            gradient.addColorStop(1, 'rgba(217, 119, 6, 0)');
 
             ctx.fillStyle = gradient;
             ctx.beginPath();
-            ctx.arc(0, 0, l.size * 2.5, 0, Math.PI * 2);
+            ctx.arc(0, 0, l.size * 2.8, 0, Math.PI * 2);
             ctx.fill();
 
-            // Lantern Body (Soft rounded rect)
-            ctx.fillStyle = `rgba(255, 235, 170, ${l.opacity})`;
-            ctx.strokeStyle = `rgba(255, 160, 0, ${l.opacity})`;
-            ctx.lineWidth = 1;
+            // Lantern Body (Rich amber warm gold)
+            ctx.fillStyle = `rgba(254, 240, 138, ${l.opacity * 0.95})`;
+            ctx.strokeStyle = `rgba(217, 119, 6, ${l.opacity})`;
+            ctx.lineWidth = 1.5;
 
-            const w = l.size * 1.2;
-            const h = l.size * 1.6;
+            const w = l.size * 1.25;
+            const h = l.size * 1.65;
             ctx.beginPath();
-            ctx.roundRect(-w / 2, -h / 2, w, h, [4, 4, 2, 2]);
+            ctx.roundRect(-w / 2, -h / 2, w, h, [5, 5, 3, 3]);
             ctx.fill();
             ctx.stroke();
 
             // Inner flame core
-            ctx.fillStyle = `rgba(255, 255, 255, ${l.opacity * 0.9})`;
+            ctx.fillStyle = `rgba(255, 255, 255, ${l.opacity})`;
             ctx.beginPath();
-            ctx.arc(0, h / 4, l.size * 0.3, 0, Math.PI * 2);
+            ctx.arc(0, h / 4, l.size * 0.35, 0, Math.PI * 2);
             ctx.fill();
 
             ctx.restore();
@@ -138,11 +136,11 @@ function createLantern(width, height, randomY = false) {
     return {
         x: Math.random() * width,
         y: randomY ? Math.random() * height : height + Math.random() * 100,
-        size: Math.random() * 10 + 8,
+        size: Math.random() * 11 + 9,
         speedY: Math.random() * 0.8 + 0.4,
         speedX: Math.random() * 0.5 + 0.2,
         wobble: Math.random() * Math.PI * 2,
-        opacity: Math.random() * 0.5 + 0.5
+        opacity: Math.random() * 0.45 + 0.55
     };
 }
 
@@ -202,7 +200,6 @@ function initRSVP() {
             msg += `\n¡Estoy muy feliz de acompañarte en tu noche mágica! 🌸👑`;
 
             const encodedMsg = encodeURIComponent(msg);
-            // Open WhatsApp with formatted text
             const whatsappUrl = `https://api.whatsapp.com/send?text=${encodedMsg}`;
             window.open(whatsappUrl, '_blank');
 
@@ -248,9 +245,8 @@ function startMagicMusic() {
         audioCtx.resume();
     }
 
-    // Tangled / Royal Waltz Note Frequencies (Melodic fairytale arpeggio)
     const notes = [
-        392.00, 440.00, 493.88, 523.25, 587.33, 659.25, 698.46, 783.99, // G4 to G5
+        392.00, 440.00, 493.88, 523.25, 587.33, 659.25, 698.46, 783.99,
         659.25, 587.33, 523.25, 493.88, 440.00, 392.00
     ];
     let noteIdx = 0;
@@ -261,11 +257,9 @@ function startMagicMusic() {
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
 
-        // Warm sine + soft bell oscillator tone
         osc.type = 'sine';
         osc.frequency.setValueAtTime(notes[noteIdx], audioCtx.currentTime);
 
-        // Soft envelope
         gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.12, audioCtx.currentTime + 0.1);
         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
@@ -303,7 +297,6 @@ function initWishes() {
                 return;
             }
 
-            // Launch custom sky lantern
             spawnUserLantern(window.innerWidth / 2, window.innerHeight - 100);
             wishInput.value = "";
             showToast(`💖 ¡Tu deseo "${text}" ha sido enviado a las estrellas!`);

@@ -8,9 +8,9 @@
     <!-- SEO & WhatsApp Share Metadata -->
     <meta name="description" content="¡Estás invitado a la mágica celebración de los 15 Años de Isabella Rojas Zuluaga! Viernes 23 de Octubre - Eventos Prestige.">
     <meta property="og:title" content="👑 Mis 15 Años - Isabella Rojas Zuluaga">
-    <meta property="og:description" content="Acompáñame a celebrar una noche llena de magia y linternas flotantes. Confirma tu asistencia aquí.">
+    <meta property="og:description" content="Acompáñame a celebrar una noche llena de magia y linternas flotantes al estilo Rapunzel. Confirma tu asistencia aquí.">
     <meta property="og:type" content="website">
-    <meta name="theme-color" content="#2c0f47">
+    <meta name="theme-color" content="#f3e8ff">
 
     <!-- Stylesheets & Fonts -->
     <link rel="stylesheet" href="styles.css">
@@ -21,7 +21,7 @@
     <!-- Background Animated Canvas for Floating Sky Lanterns -->
     <canvas id="lanternCanvas"></canvas>
 
-    <!-- Glowing Background Ambient Orbs -->
+    <!-- Glowing Background Ambient Orbs (Lilac & Gold) -->
     <div class="bg-glow-orb orb-1"></div>
     <div class="bg-glow-orb orb-2"></div>
     <div class="bg-glow-orb orb-3"></div>
@@ -36,18 +36,19 @@
     <!-- Mobile Viewport Container -->
     <div class="app-container">
 
-        <!-- HERO SECTION -->
+        <!-- 1. HERO SECTION -->
         <header class="hero-section">
-            <!-- Tiara Vector Icon -->
+            <!-- Rapunzel Tiara Vector Icon -->
             <svg class="tiara-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 15L62 40L85 25L75 65H25L15 25L38 40L50 15Z" fill="url(#goldGrad)" stroke="#FFD700" stroke-width="2"/>
-                <circle cx="50" cy="15" r="4" fill="#FFF"/>
-                <circle cx="85" cy="25" r="3" fill="#FFF"/>
-                <circle cx="15" cy="25" r="3" fill="#FFF"/>
+                <path d="M50 15L62 40L85 25L75 65H25L15 25L38 40L50 15Z" fill="url(#goldGrad)" stroke="#D97706" stroke-width="2"/>
+                <circle cx="50" cy="15" r="4.5" fill="#C084FC"/>
+                <circle cx="85" cy="25" r="3.5" fill="#7E22CE"/>
+                <circle cx="15" cy="25" r="3.5" fill="#7E22CE"/>
+                <circle cx="50" cy="45" r="3" fill="#FFF"/>
                 <defs>
                     <linearGradient id="goldGrad" x1="0" y1="0" x2="100" y2="100">
-                        <stop offset="0%" stop-color="#FFD700"/>
-                        <stop offset="100%" stop-color="#FFA000"/>
+                        <stop offset="0%" stop-color="#F59E0B"/>
+                        <stop offset="100%" stop-color="#D97706"/>
                     </linearGradient>
                 </defs>
             </svg>
@@ -58,20 +59,35 @@
 
             <!-- Corona Kingdom Sun Symbol -->
             <svg class="corona-sun" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="50" cy="50" r="18" fill="#FFC107"/>
+                <circle cx="50" cy="50" r="18" fill="#F59E0B"/>
                 <!-- Sun Rays -->
-                <path d="M50 5 L50 22 M50 78 L50 95 M5 50 L22 50 M78 50 L95 50" stroke="#FFC107" stroke-width="4" stroke-linecap="round"/>
-                <path d="M18 18 L30 30 M70 70 L82 82 M18 82 L30 70 M70 30 L82 18" stroke="#FFC107" stroke-width="3" stroke-linecap="round"/>
-                <circle cx="50" cy="50" r="10" fill="#FFE082"/>
+                <path d="M50 5 L50 22 M50 78 L50 95 M5 50 L22 50 M78 50 L95 50" stroke="#F59E0B" stroke-width="4.5" stroke-linecap="round"/>
+                <path d="M18 18 L30 30 M70 70 L82 82 M18 82 L30 70 M70 30 L82 18" stroke="#F59E0B" stroke-width="3.5" stroke-linecap="round"/>
+                <circle cx="50" cy="50" r="10" fill="#FDE68A"/>
             </svg>
 
             <p class="invitation-quote">
                 "Veo en ti la luz deslumbrar, y al fin la noche se encendió... Acompáñame a vivir la magia de mis 15 años."
             </p>
+
+            <!-- Decorative Hair Flowers Divider -->
+            <div style="display: flex; justify-content: center; gap: 15px; margin-top: 10px; color: var(--lilac-soft);">
+                <i class="fas fa-seedling" style="transform: rotate(-45deg);"></i>
+                <i class="fas fa-fan" style="color: var(--gold-primary);"></i>
+                <i class="fas fa-seedling" style="transform: rotate(45deg);"></i>
+            </div>
         </header>
 
-        <!-- COUNTDOWN TIMER CARD -->
+        <!-- 2. COUNTDOWN TIMER SECTION -->
         <section class="glass-card">
+            <!-- Rapunzel Sundrop Flower Icon -->
+            <div style="text-align: center; margin-bottom: 5px;">
+                <svg width="45" height="45" viewBox="0 0 100 100" fill="none">
+                    <circle cx="50" cy="50" r="12" fill="#F59E0B"/>
+                    <path d="M50 10 C55 30, 70 45, 90 50 C70 55, 55 70, 50 90 C45 70, 30 55, 10 50 C30 45, 45 30, 50 10 Z" fill="#FBBF24" opacity="0.85"/>
+                    <circle cx="50" cy="50" r="5" fill="#FFF"/>
+                </svg>
+            </div>
             <div class="card-header">
                 <h2 class="card-title"><i class="fas fa-hourglass-half"></i> Cuenta Regresiva</h2>
             </div>
@@ -95,20 +111,39 @@
             </div>
         </section>
 
-        <!-- DATE & TIME BADGE -->
+        <!-- 3. DATE & CALENDAR SECTION -->
         <section class="glass-card">
+            <!-- Rapunzel Magic Lantern Icon -->
+            <div style="text-align: center; margin-bottom: 5px;">
+                <svg width="40" height="48" viewBox="0 0 100 120" fill="none">
+                    <rect x="25" y="20" width="50" height="70" rx="8" fill="#FDE68A" stroke="#F59E0B" stroke-width="4"/>
+                    <circle cx="50" cy="55" r="12" fill="#F59E0B"/>
+                    <path d="M50 0 L50 20 M25 90 L30 110 L70 110 L75 90" stroke="#D97706" stroke-width="3"/>
+                </svg>
+            </div>
             <div class="date-badge">
                 <div class="date-day">Viernes</div>
                 <div class="date-full">23 DE OCTUBRE</div>
                 <div class="date-time"><i class="far fa-clock"></i> 7:00 PM</div>
             </div>
-            <button class="btn btn-outline" style="width: 100%;" onclick="addToCalendar()">
+            <button class="btn btn-purple" style="width: 100%;" onclick="addToCalendar()">
                 <i class="far fa-calendar-plus"></i> Agendar en mi Calendario
             </button>
         </section>
 
-        <!-- LOCATION CARD -->
+        <!-- 4. LOCATION CARD SECTION -->
         <section class="glass-card">
+            <!-- Rapunzel Tower & Castle Icon -->
+            <div style="text-align: center; margin-bottom: 5px;">
+                <svg width="50" height="50" viewBox="0 0 100 100" fill="none">
+                    <!-- Castle Tower -->
+                    <path d="M35 90 L35 40 L50 15 L65 40 L65 90 Z" fill="#E9D5FF" stroke="#7E22CE" stroke-width="3"/>
+                    <path d="M45 40 L50 25 L55 40 Z" fill="#F59E0B"/>
+                    <rect x="42" y="60" width="16" height="30" rx="8" fill="#581C87"/>
+                    <!-- Window -->
+                    <circle cx="50" cy="45" r="5" fill="#FBBF24"/>
+                </svg>
+            </div>
             <div class="card-header">
                 <h2 class="card-title"><i class="fas fa-map-marker-alt"></i> Recepción & Lugar</h2>
             </div>
@@ -116,22 +151,31 @@
             <p class="location-address">Calle 52 #46-47<br>Bello, Antioquia</p>
 
             <div class="btn-group">
-                <a href="https://www.google.com/maps/search/?api=1&query=Eventos+Prestige+Calle+52+%2346-47+Bello+Antioquia" target="_blank" class="btn btn-gold">
+                <a href="https://www.google.com/maps/search/?api=1&query=Eventos+Prestige+Calle+52+%2346-47+Bello+Antioquia" target="_blank" class="btn btn-purple">
                     <i class="fas fa-location-arrow"></i> Google Maps
                 </a>
-                <a href="https://waze.com/ul?q=Eventos%20Prestige%20Bello%20Antioquia&navigate=yes" target="_blank" class="btn btn-outline">
+                <a href="https://waze.com/ul?q=Eventos%20Prestige%20Bello%20Antioquia&navigate=yes" target="_blank" class="btn btn-outline-purple">
                     <i class="fab fa-waze"></i> Waze
                 </a>
             </div>
         </section>
 
-        <!-- DRESS CODE CARD -->
+        <!-- 5. DRESS CODE CARD SECTION -->
         <section class="glass-card">
+            <!-- Rapunzel Dress & Crown Icon -->
+            <div style="text-align: center; margin-bottom: 5px;">
+                <svg width="45" height="45" viewBox="0 0 100 100" fill="none">
+                    <!-- Gown silhouette -->
+                    <path d="M40 25 L50 10 L60 25 L75 90 L25 90 Z" fill="#C084FC" stroke="#581C87" stroke-width="3"/>
+                    <path d="M45 25 L50 35 L55 25 Z" fill="#F59E0B"/>
+                    <circle cx="50" cy="10" r="4" fill="#FBBF24"/>
+                </svg>
+            </div>
             <div class="card-header">
                 <h2 class="card-title"><i class="fas fa-user-tie"></i> Código de Vestimenta</h2>
             </div>
             <div class="dress-code-box">
-                <i class="fas fa-user-ninja" style="font-size: 2.2rem; color: var(--gold-bright); margin-bottom: 10px;"></i>
+                <i class="fas fa-user-ninja" style="font-size: 2.2rem; color: var(--gold-soft); margin-bottom: 10px;"></i>
                 <div>
                     <span class="black-tag">SEMIFORMAL DE NEGRO</span>
                 </div>
@@ -141,26 +185,40 @@
             </div>
         </section>
 
-        <!-- GIFT CARD (LLUVIA DE SOBRES) -->
+        <!-- 6. GIFT CARD SECTION (LLUVIA DE SOBRES) -->
         <section class="glass-card">
+            <!-- Rapunzel Magic Envelope Icon -->
+            <div style="text-align: center; margin-bottom: 5px;">
+                <svg width="50" height="45" viewBox="0 0 100 80" fill="none">
+                    <rect x="10" y="15" width="80" height="55" rx="8" fill="#FDE68A" stroke="#D97706" stroke-width="3"/>
+                    <path d="M10 20 L50 50 L90 20" stroke="#D97706" stroke-width="3" fill="none"/>
+                    <circle cx="50" cy="50" r="8" fill="#7E22CE"/>
+                </svg>
+            </div>
             <div class="card-header">
                 <h2 class="card-title"><i class="fas fa-envelope-open-text"></i> Lluvia de Sobres</h2>
             </div>
             <div class="gift-box">
-                <div class="envelope-icon">
-                    <i class="fas fa-envelope"></i>
-                </div>
-                <p class="dress-desc" style="font-size: 0.95rem; margin-bottom: 15px;">
+                <p class="dress-desc-light" style="margin-bottom: 15px;">
                     Tu presencia es mi mejor regalo. Si deseas realizar un obsequio, podrás colocar tu sobre en la caja especial el día del evento.
                 </p>
-                <button class="btn btn-outline" onclick="copyEnvelopeInfo()">
+                <button class="btn btn-outline-purple" onclick="copyEnvelopeInfo()">
                     <i class="far fa-copy"></i> Copiar Detalles
                 </button>
             </div>
         </section>
 
-        <!-- EVENT TIMELINE / ITINERARY -->
+        <!-- 7. EVENT TIMELINE / ITINERARY SECTION -->
         <section class="glass-card">
+            <!-- Rapunzel Braided Hair & Flowers Icon -->
+            <div style="text-align: center; margin-bottom: 5px;">
+                <svg width="45" height="45" viewBox="0 0 100 100" fill="none">
+                    <path d="M30 10 Q50 30, 30 50 T30 90" stroke="#F59E0B" stroke-width="6" fill="none"/>
+                    <path d="M70 10 Q50 30, 70 50 T70 90" stroke="#F59E0B" stroke-width="6" fill="none"/>
+                    <circle cx="50" cy="30" r="6" fill="#C084FC"/>
+                    <circle cx="50" cy="70" r="6" fill="#C084FC"/>
+                </svg>
+            </div>
             <div class="card-header">
                 <h2 class="card-title"><i class="fas fa-list-ol"></i> Itinerario Mágico</h2>
             </div>
@@ -193,28 +251,46 @@
             </div>
         </section>
 
-        <!-- INTERACTIVE LANTERN WISHES -->
+        <!-- 8. INTERACTIVE LANTERN WISHES SECTION -->
         <section class="glass-card">
+            <!-- Rapunzel Boat & Lantern Lake Scene Icon -->
+            <div style="text-align: center; margin-bottom: 5px;">
+                <svg width="55" height="45" viewBox="0 0 100 80" fill="none">
+                    <path d="M20 50 Q50 65, 80 50 L70 65 L30 65 Z" fill="#581C87"/>
+                    <circle cx="35" cy="25" r="6" fill="#FBBF24"/>
+                    <circle cx="65" cy="20" r="7" fill="#F59E0B"/>
+                    <circle cx="50" cy="12" r="5" fill="#FBBF24"/>
+                </svg>
+            </div>
             <div class="card-header">
                 <h2 class="card-title"><i class="fas fa-lightbulb"></i> Eleva tu Linterna Mágica</h2>
             </div>
             <div class="lantern-interactive-box">
-                <p class="dress-desc" style="margin-bottom: 12px;">
+                <p class="dress-desc-light" style="margin-bottom: 12px;">
                     Escribe un deseo o mensaje especial para Isabella y toca el botón para elevar una linterna flotante al cielo. (También puedes tocar cualquier parte de la pantalla).
                 </p>
                 <input type="text" id="wishInput" class="wish-input" placeholder="Escribe tu deseo aquí..." maxlength="100">
-                <button id="sendWishBtn" class="btn btn-gold" style="width: 100%;">
+                <button id="sendWishBtn" class="btn btn-purple" style="width: 100%;">
                     <i class="fas fa-paper-plane"></i> Elevar mi Linterna ✨
                 </button>
             </div>
         </section>
 
-        <!-- RSVP WHATSAPP CALL TO ACTION -->
-        <section class="glass-card" style="border: 1.5px solid var(--gold-bright);">
+        <!-- 9. RSVP WHATSAPP CALL TO ACTION SECTION -->
+        <section class="glass-card" style="border: 2px solid var(--purple-primary);">
+            <!-- Pascal Chameleon / Royal Seal Icon -->
+            <div style="text-align: center; margin-bottom: 5px;">
+                <svg width="45" height="45" viewBox="0 0 100 100" fill="none">
+                    <circle cx="50" cy="50" r="40" fill="#E9D5FF" stroke="#7E22CE" stroke-width="4"/>
+                    <path d="M35 55 Q50 35, 65 55" stroke="#10B981" stroke-width="6" stroke-linecap="round" fill="none"/>
+                    <circle cx="40" cy="45" r="4" fill="#059669"/>
+                    <circle cx="60" cy="45" r="4" fill="#059669"/>
+                </svg>
+            </div>
             <div class="card-header">
                 <h2 class="card-title" style="font-size: 1.4rem;"><i class="fab fa-whatsapp"></i> Confirmación</h2>
             </div>
-            <p class="dress-desc" style="text-align: center;">
+            <p class="dress-desc-light" style="text-align: center;">
                 Por favor confirma tu asistencia antes del 10 de Octubre para reservar tu lugar especial.
             </p>
             <button id="openRsvpBtn" class="btn btn-whatsapp">
@@ -226,7 +302,7 @@
         <footer class="footer-text">
             <p class="footer-quote">Isabella Rojas Zuluaga</p>
             <p>¡Te espero para celebrar juntos una noche de ensueño!</p>
-            <p style="margin-top: 15px; font-size: 0.7rem; opacity: 0.6;">✨ Creado con magia para los 15 de Isabella ✨</p>
+            <p style="margin-top: 15px; font-size: 0.75rem; opacity: 0.7;">✨ Creado con magia para los 15 de Isabella ✨</p>
         </footer>
 
     </div>
