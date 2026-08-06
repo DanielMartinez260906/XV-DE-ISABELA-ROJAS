@@ -1,5 +1,5 @@
 /* ==========================================================================
-   XV de Isabella Rojas Zuluaga - Light Lilac Rapunzel Interactive Script
+   XV de Isabella Rojas Zuluaga - Light Theme & Interactive Button Lanterns
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initAudioPlayer();
     initRSVP();
     initWishes();
+    initScrollReveal();
+    initButtonLanternEffects();
 });
 
 /* ==========================================
@@ -49,82 +51,63 @@ function initCountdown() {
 }
 
 /* ==========================================
-   2. Floating Sky Lanterns Canvas Animation (Light Background Optimized)
+   2. Sky Lanterns Canvas Particle Burst (On Button Click)
    ========================================== */
 let lanternParticles = [];
+let canvasCtx = null;
+let canvasWidth = 0;
+let canvasHeight = 0;
 
 function initLanternCanvas() {
     const canvas = document.getElementById('lanternCanvas');
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
+    canvasCtx = canvas.getContext('2d');
+    canvasWidth = canvas.width = window.innerWidth;
+    canvasHeight = canvas.height = window.innerHeight;
 
     window.addEventListener('resize', () => {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-    });
-
-    // Create initial lanterns
-    const lanternCount = 28;
-    for (let i = 0; i < lanternCount; i++) {
-        lanternParticles.push(createLantern(width, height, true));
-    }
-
-    // Touch / Click to release a new lantern with a wish!
-    window.addEventListener('click', (e) => {
-        if (e.target.closest('button, input, select, textarea, a, .modal-card')) return;
-        spawnUserLantern(e.clientX, e.clientY);
+        canvasWidth = canvas.width = window.innerWidth;
+        canvasHeight = canvas.height = window.innerHeight;
     });
 
     function render() {
-        ctx.clearRect(0, 0, width, height);
+        canvasCtx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-        lanternParticles.forEach((l, index) => {
+        for (let i = lanternParticles.length - 1; i >= 0; i--) {
+            const l = lanternParticles[i];
             l.y -= l.speedY;
             l.x += Math.sin(l.wobble) * l.speedX;
-            l.wobble += 0.02;
+            l.wobble += 0.03;
+            l.opacity -= 0.005;
 
-            ctx.save();
-            ctx.translate(l.x, l.y);
+            if (l.opacity <= 0 || l.y < -50) {
+                lanternParticles.splice(i, 1);
+                continue;
+            }
 
-            // Outer golden glow visible on light background
-            const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, l.size * 2.8);
-            gradient.addColorStop(0, `rgba(245, 158, 11, ${l.opacity * 0.85})`);
-            gradient.addColorStop(0.5, `rgba(217, 119, 6, ${l.opacity * 0.45})`);
+            canvasCtx.save();
+            canvasCtx.translate(l.x, l.y);
+
+            // Glow
+            const gradient = canvasCtx.createRadialGradient(0, 0, 0, 0, 0, l.size * 3);
+            gradient.addColorStop(0, `rgba(251, 191, 36, ${l.opacity})`);
+            gradient.addColorStop(0.5, `rgba(217, 119, 6, ${l.opacity * 0.5})`);
             gradient.addColorStop(1, 'rgba(217, 119, 6, 0)');
 
-            ctx.fillStyle = gradient;
-            ctx.beginPath();
-            ctx.arc(0, 0, l.size * 2.8, 0, Math.PI * 2);
-            ctx.fill();
+            canvasCtx.fillStyle = gradient;
+            canvasCtx.beginPath();
+            canvasCtx.arc(0, 0, l.size * 3, 0, Math.PI * 2);
+            canvasCtx.fill();
 
-            // Lantern Body (Rich amber warm gold)
-            ctx.fillStyle = `rgba(254, 240, 138, ${l.opacity * 0.95})`;
-            ctx.strokeStyle = `rgba(217, 119, 6, ${l.opacity})`;
-            ctx.lineWidth = 1.5;
+            // Body
+            canvasCtx.fillStyle = `rgba(254, 240, 138, ${l.opacity * 0.95})`;
+            canvasCtx.beginPath();
+            canvasCtx.roundRect(-l.size * 0.6, -l.size, l.size * 1.2, l.size * 1.6, [l.size * 0.2]);
+            canvasCtx.fill();
 
-            const w = l.size * 1.25;
-            const h = l.size * 1.65;
-            ctx.beginPath();
-            ctx.roundRect(-w / 2, -h / 2, w, h, [5, 5, 3, 3]);
-            ctx.fill();
-            ctx.stroke();
-
-            // Inner flame core
-            ctx.fillStyle = `rgba(255, 255, 255, ${l.opacity})`;
-            ctx.beginPath();
-            ctx.arc(0, h / 4, l.size * 0.35, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.restore();
-
-            // Reset lantern when it floats off top
-            if (l.y < -50) {
-                lanternParticles[index] = createLantern(width, height, false);
-            }
-        });
+            canvasCtx.restore();
+        }
 
         requestAnimationFrame(render);
     }
@@ -132,158 +115,133 @@ function initLanternCanvas() {
     render();
 }
 
-function createLantern(width, height, randomY = false) {
-    return {
-        x: Math.random() * width,
-        y: randomY ? Math.random() * height : height + Math.random() * 100,
-        size: Math.random() * 11 + 9,
-        speedY: Math.random() * 0.8 + 0.4,
-        speedX: Math.random() * 0.5 + 0.2,
-        wobble: Math.random() * Math.PI * 2,
-        opacity: Math.random() * 0.45 + 0.55
-    };
-}
-
-function spawnUserLantern(x, y) {
-    for (let i = 0; i < 3; i++) {
-        lanternParticles.push({
-            x: x + (Math.random() * 30 - 15),
-            y: y + (Math.random() * 30 - 15),
-            size: Math.random() * 14 + 10,
-            speedY: Math.random() * 1.2 + 0.8,
-            speedX: Math.random() * 0.6 + 0.2,
-            wobble: Math.random() * Math.PI * 2,
-            opacity: 1
-        });
-    }
-    showToast("✨ ¡Has elevado una linterna mágica al cielo!");
-}
-
-/* ==========================================
-   3. RSVP Modal & WhatsApp Integration
-   ========================================== */
-function initRSVP() {
-    const modal = document.getElementById('rsvpModal');
-    const openBtn = document.getElementById('openRsvpBtn');
-    const closeBtn = document.getElementById('closeRsvpBtn');
-    const sendBtn = document.getElementById('sendWhatsappBtn');
-
-    if (openBtn && modal) {
-        openBtn.addEventListener('click', () => modal.classList.add('active'));
-    }
-    if (closeBtn && modal) {
-        closeBtn.addEventListener('click', () => modal.classList.remove('active'));
-    }
-    if (modal) {
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) modal.classList.remove('active');
-        });
-    }
-
-    if (sendBtn) {
-        sendBtn.addEventListener('click', () => {
-            const guestName = document.getElementById('guestName').value.trim();
-            const guestPasses = document.getElementById('guestPasses').value;
-            const guestNote = document.getElementById('guestNote').value.trim();
-
-            if (!guestName) {
-                showToast("⚠️ Por favor ingresa tu nombre completo.");
-                return;
-            }
-
-            let msg = `✨ *CONFIRMACIÓN DE ASISTENCIA - 15 AÑOS DE ISABELLA* ✨\n\n`;
-            msg += `👑 *Nombre:* ${guestName}\n`;
-            msg += `👥 *Asistentes:* ${guestPasses} persona(s)\n`;
-            if (guestNote) {
-                msg += `💌 *Mensaje:* "${guestNote}"\n`;
-            }
-            msg += `\n¡Estoy muy feliz de acompañarte en tu noche mágica! 🌸👑`;
-
-            const encodedMsg = encodeURIComponent(msg);
-            const whatsappUrl = `https://api.whatsapp.com/send?text=${encodedMsg}`;
-            window.open(whatsappUrl, '_blank');
-
-            if (modal) modal.classList.remove('active');
-            showToast(" Abriendo WhatsApp...");
-        });
-    }
-}
-
-/* ==========================================
-   4. Audio Player (Magic Fairytale Synth Theme)
-   ========================================== */
-let audioCtx = null;
-let isPlayingAudio = false;
-let audioTimer = null;
-
-function initAudioPlayer() {
-    const btn = document.getElementById('audioToggleBtn');
-    if (!btn) return;
-
-    btn.addEventListener('click', () => {
-        if (!isPlayingAudio) {
-            startMagicMusic();
-            btn.classList.add('playing');
-            btn.innerHTML = '<i class="fas fa-volume-up"></i>';
-            showToast("🎵 Reproduciendo melodía mágica de Rapunzel");
-        } else {
-            stopMagicMusic();
-            btn.classList.remove('playing');
-            btn.innerHTML = '<i class="fas fa-music"></i>';
-            showToast("🔇 Música pausada");
+/* Trigger Lantern Burst on Button Clicks */
+function initButtonLanternEffects() {
+    document.addEventListener('click', (e) => {
+        const targetBtn = e.target.closest('button, .btn, a.btn, input[type="button"]');
+        if (targetBtn) {
+            spawnLanternBurst(e.clientX || window.innerWidth / 2, e.clientY || window.innerHeight / 2);
         }
     });
 }
 
-function startMagicMusic() {
-    isPlayingAudio = true;
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!audioCtx) {
-        audioCtx = new AudioContext();
+function spawnLanternBurst(startX, startY) {
+    const burstCount = 12;
+    for (let i = 0; i < burstCount; i++) {
+        lanternParticles.push({
+            x: startX + (Math.random() - 0.5) * 80,
+            y: startY + (Math.random() - 0.5) * 40,
+            size: Math.random() * 10 + 8,
+            speedY: Math.random() * 2.2 + 1.2,
+            speedX: Math.random() * 1.2 + 0.5,
+            wobble: Math.random() * Math.PI * 2,
+            opacity: Math.random() * 0.4 + 0.6
+        });
     }
-    if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-    }
-
-    const notes = [
-        392.00, 440.00, 493.88, 523.25, 587.33, 659.25, 698.46, 783.99,
-        659.25, 587.33, 523.25, 493.88, 440.00, 392.00
-    ];
-    let noteIdx = 0;
-
-    function playNextNote() {
-        if (!isPlayingAudio) return;
-
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(notes[noteIdx], audioCtx.currentTime);
-
-        gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.12, audioCtx.currentTime + 0.1);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
-
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.85);
-
-        noteIdx = (noteIdx + 1) % notes.length;
-        audioTimer = setTimeout(playNextNote, 500);
-    }
-
-    playNextNote();
-}
-
-function stopMagicMusic() {
-    isPlayingAudio = false;
-    if (audioTimer) clearTimeout(audioTimer);
 }
 
 /* ==========================================
-   5. Interactive Wish Launcher
+   3. Background Instrumental Audio Player
+   ========================================== */
+let audioCtx = null;
+let isAudioPlaying = false;
+
+function initAudioPlayer() {
+    const audioBtn = document.getElementById('audioToggleBtn');
+    if (!audioBtn) return;
+
+    audioBtn.addEventListener('click', () => {
+        if (!isAudioPlaying) {
+            playRapunzelMelody();
+            audioBtn.classList.add('playing');
+            isAudioPlaying = true;
+            showToast("🎶 Reproduciendo Música Mágica...");
+        } else {
+            stopRapunzelMelody();
+            audioBtn.classList.remove('playing');
+            isAudioPlaying = false;
+            showToast("🔇 Música Pausada");
+        }
+    });
+}
+
+function playRapunzelMelody() {
+    try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+
+        const notes = [261.63, 329.63, 392.00, 523.25, 440.00, 392.00, 329.63, 293.66];
+        let noteIndex = 0;
+
+        function playNextNote() {
+            if (!isAudioPlaying || !audioCtx) return;
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(notes[noteIndex], audioCtx.currentTime);
+
+            gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.8);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + 1.8);
+
+            noteIndex = (noteIndex + 1) % notes.length;
+            setTimeout(playNextNote, 2000);
+        }
+
+        playNextNote();
+    } catch (e) {
+        console.log("Web Audio API Error", e);
+    }
+}
+
+function stopRapunzelMelody() {
+    if (audioCtx) {
+        audioCtx.close();
+        audioCtx = null;
+    }
+}
+
+/* ==========================================
+   4. WhatsApp RSVP Form Submission
+   ========================================== */
+function initRSVP() {
+    const openBtn = document.getElementById('openRsvpBtn');
+    const sendBtn = document.getElementById('sendWhatsappBtn');
+
+    if (openBtn) {
+        openBtn.addEventListener('click', () => openModal('rsvpModal'));
+    }
+
+    if (sendBtn) {
+        sendBtn.addEventListener('click', () => {
+            const name = document.getElementById('guestName').value.trim();
+            const passes = document.getElementById('guestPasses').value;
+            const note = document.getElementById('guestNote').value.trim();
+
+            if (!name) {
+                showToast("⚠️ Por favor ingresa tu nombre completo");
+                return;
+            }
+
+            const message = `¡Hola Isabella! 👑✨%0A Confirmación de Asistencia a mis 15 Años%0A%0A👤 *Nombre:* ${encodeURIComponent(name)}%0A👥 *Asistentes:* ${passes} persona(s)%0A💬 *Mensaje:* ${encodeURIComponent(note || '¡Nos vemos en la fiesta!')}`;
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=573100000000&text=${message}`;
+
+            window.open(whatsappUrl, '_blank');
+            closeModal('rsvpModal');
+            showToast("✨ ¡Gracias por confirmar tu asistencia! ✨");
+        });
+    }
+}
+
+/* ==========================================
+   5. Interactive Wish Lanterns
    ========================================== */
 function initWishes() {
     const wishBtn = document.getElementById('sendWishBtn');
@@ -293,45 +251,84 @@ function initWishes() {
         wishBtn.addEventListener('click', () => {
             const text = wishInput.value.trim();
             if (!text) {
-                showToast("✨ Escribe tus felicitaciones para elevar una linterna.");
+                showToast("✨ Escribe un deseo antes de elevar la linterna ✨");
                 return;
             }
 
-            spawnUserLantern(window.innerWidth / 2, window.innerHeight - 100);
-            wishInput.value = "";
-            showToast(`💖 ¡Tu deseo "${text}" ha sido enviado a las estrellas!`);
+            spawnLanternBurst(window.innerWidth / 2, window.innerHeight * 0.7);
+            wishInput.value = '';
+            showToast(`✨ ¡Tu linterna se ha elevado con el deseo: "${text.substring(0, 20)}..."! ✨`);
         });
     }
 }
 
 /* ==========================================
-   6. Calendar & Helper Utilities
+   6. Scroll Reveal Observer
    ========================================== */
-function addToCalendar() {
-    const title = encodeURIComponent("15 Años de Isabella Rojas Zuluaga 👑");
-    const details = encodeURIComponent("Celebración de los 15 Años de Isabella en Eventos Prestige. Vestimenta: Semiformal de Negro.");
-    const location = encodeURIComponent("Eventos Prestige, Calle 52 #46-47, Bello, Antioquia");
-    const startDate = "20261023T190000";
-    const endDate = "20261024T030000";
+function initScrollReveal() {
+    const revealElements = document.querySelectorAll('.floating-text-block, .section-divider-blend');
 
-    const googleCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDate}/${endDate}&details=${details}&location=${location}`;
-    window.open(googleCalUrl, '_blank');
+    if (!('IntersectionObserver' in window)) {
+        revealElements.forEach(el => el.classList.add('is-revealed'));
+        return;
+    }
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -40px 0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-revealed');
+            }
+        });
+    }, observerOptions);
+
+    revealElements.forEach(el => observer.observe(el));
+}
+
+/* ==========================================
+   7. Modals & Helpers
+   ========================================== */
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) modal.classList.add('active');
+}
+
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) modal.classList.remove('active');
+}
+
+function submitSongSuggestion() {
+    const input = document.getElementById('songName');
+    if (!input || !input.value.trim()) {
+        showToast("⚠️ Por favor escribe el nombre de la canción");
+        return;
+    }
+    const song = input.value.trim();
+    showToast(`🎶 ¡Gracias! "${song}" agregada a la lista del DJ`);
+    input.value = "";
+    closeModal('songModal');
 }
 
 function copyEnvelopeInfo() {
-    const textToCopy = "Lluvia de Sobres - 15 Años Isabella Rojas Zuluaga. Eventos Prestige, Calle 52 #46-47, Bello Antioquia.";
-    navigator.clipboard.writeText(textToCopy).then(() => {
-        showToast("📋 ¡Información copiada al portapapeles!");
-    }).catch(() => {
-        showToast("💌 Lluvia de sobres en sobre cerrado el día del evento.");
-    });
+    navigator.clipboard.writeText("Lluvia de Sobres - XV de Isabella Rojas Zuluaga");
+    showToast("📋 ¡Detalles copiados al portapapeles!");
+}
+
+function addToCalendar() {
+    const calendarUrl = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=XV+de+Isabella+Rojas+Zuluaga&dates=20261023T190000/20261024T030000&details=Celebración+de+15+Años+al+estilo+Rapunzel&location=Eventos+Prestige+Bello+Antioquia";
+    window.open(calendarUrl, '_blank');
 }
 
 function showToast(msg) {
-    let toast = document.getElementById('toastMsg');
+    let toast = document.querySelector('.toast-msg');
     if (!toast) {
         toast = document.createElement('div');
-        toast.id = 'toastMsg';
         toast.className = 'toast-msg';
         document.body.appendChild(toast);
     }
