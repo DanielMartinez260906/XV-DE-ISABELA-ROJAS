@@ -16,16 +16,18 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+    <!-- ENTRANCE OVERLAY WITH PULSATING RAPUNZEL LANTERN -->
+    <div id="entranceOverlay" class="entrance-overlay" onclick="openInvitationFromLantern(event)">
+        <div class="lantern-entrance-card">
+            <p class="entrance-welcome-subtitle">Mis 15 Años</p>
+            <h2 class="entrance-welcome-title">Isabella</h2>
+            
+            <div class="lantern-pulse-wrapper">
+                <img src="assets/FAROL_RAPUNZEL_ENTRADA.png" alt="Farol Mágico de Rapunzel" class="farol-rapunzel-img">
+            </div>
 
-    <!-- Background Animated Canvas for Floating Sky Lanterns -->
-    <canvas id="lanternCanvas"></canvas>
-
-    <!-- Floating Audio Control Button -->
-    <div class="audio-control">
-        <button id="audioToggleBtn" class="audio-btn" aria-label="Reproducir música ambient de Rapunzel">
-            <i class="fas fa-music"></i>
-        </button>
+            <p class="entrance-instruction">Toca el farol para encender la magia ✨</p>
+        </div>
     </div>
 
     <!-- MAIN FULL-BLEED INVITATION CONTAINER (NO CARDS) -->

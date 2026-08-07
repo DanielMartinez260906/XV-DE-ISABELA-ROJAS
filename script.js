@@ -125,15 +125,15 @@ function initButtonLanternEffects() {
     });
 }
 
-function spawnLanternBurst(startX, startY) {
-    const burstCount = 12;
+function spawnLanternBurst(startX, startY, customCount = 12) {
+    const burstCount = customCount;
     for (let i = 0; i < burstCount; i++) {
         lanternParticles.push({
-            x: startX + (Math.random() - 0.5) * 80,
-            y: startY + (Math.random() - 0.5) * 40,
-            size: Math.random() * 10 + 8,
-            speedY: Math.random() * 2.2 + 1.2,
-            speedX: Math.random() * 1.2 + 0.5,
+            x: startX + (Math.random() - 0.5) * 140,
+            y: startY + (Math.random() - 0.5) * 60,
+            size: Math.random() * 12 + 8,
+            speedY: Math.random() * 3.5 + 2.0,
+            speedX: (Math.random() - 0.5) * 1.5,
             wobble: Math.random() * Math.PI * 2,
             opacity: Math.random() * 0.4 + 0.6
         });
@@ -291,8 +291,33 @@ function initScrollReveal() {
 }
 
 /* ==========================================
-   7. Modals & Helpers
+   7. Interactive Entrance Lantern & Modals Handler
    ========================================== */
+function openInvitationFromLantern(e) {
+    const overlay = document.getElementById('entranceOverlay');
+    
+    // Spawn a large fleet of sky lanterns floating up to top of screen!
+    if (typeof spawnLanternBurst === 'function') {
+        const clickX = e && e.clientX ? e.clientX : window.innerWidth / 2;
+        const clickY = e && e.clientY ? e.clientY : window.innerHeight * 0.6;
+        spawnLanternBurst(clickX, clickY, 35);
+    }
+    
+    // Attempt auto-play music
+    const audioBtn = document.getElementById('audioToggleBtn');
+    if (audioBtn && !audioBtn.classList.contains('playing')) {
+        audioBtn.click();
+    }
+
+    // Smoothly fade out overlay after lanterns float up!
+    setTimeout(() => {
+        if (overlay) {
+            overlay.classList.add('opened');
+        }
+        showToast("✨ ¡Bienvenido a la celebración de Isabella! ✨");
+    }, 900);
+}
+
 function openModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) modal.classList.add('active');
