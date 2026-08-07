@@ -293,15 +293,29 @@ function initScrollReveal() {
 /* ==========================================
    7. Interactive Entrance Lantern & Modals Handler
    ========================================== */
+/* Spawn Full Screen Swarm of Sky Lanterns filling the entire viewport */
+function spawnFullScreenLanternSwarm(count = 85) {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    
+    for (let i = 0; i < count; i++) {
+        lanternParticles.push({
+            x: Math.random() * width,
+            y: height * (0.3 + Math.random() * 0.9),
+            size: Math.random() * 14 + 7,
+            speedY: Math.random() * 2.8 + 1.5,
+            speedX: (Math.random() - 0.5) * 1.8,
+            wobble: Math.random() * Math.PI * 2,
+            opacity: Math.random() * 0.4 + 0.6
+        });
+    }
+}
+
 function openInvitationFromLantern(e) {
     const overlay = document.getElementById('entranceOverlay');
     
-    // Spawn a large fleet of sky lanterns floating up to top of screen!
-    if (typeof spawnLanternBurst === 'function') {
-        const clickX = e && e.clientX ? e.clientX : window.innerWidth / 2;
-        const clickY = e && e.clientY ? e.clientY : window.innerHeight * 0.6;
-        spawnLanternBurst(clickX, clickY, 35);
-    }
+    // Fill the ENTIRE screen with a magnificent swarm of 90 sky lanterns!
+    spawnFullScreenLanternSwarm(90);
     
     // Attempt auto-play music
     const audioBtn = document.getElementById('audioToggleBtn');
@@ -309,13 +323,14 @@ function openInvitationFromLantern(e) {
         audioBtn.click();
     }
 
-    // Smoothly fade out overlay after lanterns float up!
+    // Smoothly fade out overlay after lanterns fill the screen and rise up to the top!
     setTimeout(() => {
         if (overlay) {
             overlay.classList.add('opened');
         }
+        document.body.classList.remove('overlay-active');
         showToast("✨ ¡Bienvenido a la celebración de Isabella! ✨");
-    }, 900);
+    }, 1500);
 }
 
 function openModal(modalId) {
