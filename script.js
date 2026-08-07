@@ -231,7 +231,7 @@ function initRSVP() {
             }
 
             const message = `¡Hola Isabella! 👑✨%0A Confirmación de Asistencia a mis 15 Años%0A%0A👤 *Nombre:* ${encodeURIComponent(name)}%0A👥 *Asistentes:* ${passes} persona(s)%0A💬 *Mensaje:* ${encodeURIComponent(note || '¡Nos vemos en la fiesta!')}`;
-            const whatsappUrl = `https://api.whatsapp.com/send?phone=573100000000&text=${message}`;
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=573235005515&text=${message}`;
 
             window.open(whatsappUrl, '_blank');
             closeModal('rsvpModal');
