@@ -313,24 +313,17 @@ function spawnFullScreenLanternSwarm(count = 85) {
 
 function openInvitationFromLantern(e) {
     const overlay = document.getElementById('entranceOverlay');
-    
-    // Fill the ENTIRE screen with a magnificent swarm of 90 sky lanterns!
-    spawnFullScreenLanternSwarm(90);
+    if (overlay) {
+        overlay.classList.add('opened');
+    }
+    document.body.classList.remove('overlay-active');
     
     // Attempt auto-play music
     const audioBtn = document.getElementById('audioToggleBtn');
     if (audioBtn && !audioBtn.classList.contains('playing')) {
         audioBtn.click();
     }
-
-    // Smoothly fade out overlay after lanterns fill the screen and rise up to the top!
-    setTimeout(() => {
-        if (overlay) {
-            overlay.classList.add('opened');
-        }
-        document.body.classList.remove('overlay-active');
-        showToast("✨ ¡Bienvenido a la celebración de Isabella! ✨");
-    }, 1500);
+    showToast("✨ ¡Bienvenido a la celebración de Isabella! ✨");
 }
 
 function openModal(modalId) {
