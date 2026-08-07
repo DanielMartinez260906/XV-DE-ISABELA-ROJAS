@@ -323,7 +323,6 @@ function openInvitationFromLantern(e) {
     if (audioBtn && !audioBtn.classList.contains('playing')) {
         audioBtn.click();
     }
-    showToast("✨ ¡Bienvenido a la celebración de Isabella! ✨");
 }
 
 function openModal(modalId) {
