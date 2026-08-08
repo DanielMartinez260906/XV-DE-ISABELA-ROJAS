@@ -141,70 +141,83 @@ function spawnLanternBurst(startX, startY, customCount = 12) {
 }
 
 /* ==========================================
-   3. Background Instrumental Audio Player
+   3. Background Instrumental Audio Player (cancion.mp3)
    ========================================== */
-let audioCtx = null;
+let bgAudio = null;
 let isAudioPlaying = false;
 
 function initAudioPlayer() {
+    bgAudio = document.getElementById('bgMusic');
     const audioBtn = document.getElementById('audioToggleBtn');
-    if (!audioBtn) return;
 
-    audioBtn.addEventListener('click', () => {
-        if (!isAudioPlaying) {
-            playRapunzelMelody();
-            audioBtn.classList.add('playing');
-            isAudioPlaying = true;
-            showToast("🎶 Reproduciendo Música Mágica...");
-        } else {
-            stopRapunzelMelody();
-            audioBtn.classList.remove('playing');
-            isAudioPlaying = false;
-            showToast("🔇 Música Pausada");
-        }
+    if (!bgAudio || !audioBtn) return;
+
+    audioBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleAudio();
     });
+
+    // Attempt automatic play on load
+    playAudio(true);
+
+    // Global listener for first user interaction (unlocks audio autoplay on iOS & Android)
+    const enableAudioOnUserGesture = () => {
+        if (bgAudio && bgAudio.paused) {
+            playAudio(false);
+        }
+        document.removeEventListener('click', enableAudioOnUserGesture);
+        document.removeEventListener('touchstart', enableAudioOnUserGesture);
+    };
+
+    document.addEventListener('click', enableAudioOnUserGesture, { once: true });
+    document.addEventListener('touchstart', enableAudioOnUserGesture, { once: true });
 }
 
-function playRapunzelMelody() {
-    try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        audioCtx = new AudioContext();
-
-        const notes = [261.63, 329.63, 392.00, 523.25, 440.00, 392.00, 329.63, 293.66];
-        let noteIndex = 0;
-
-        function playNextNote() {
-            if (!isAudioPlaying || !audioCtx) return;
-
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(notes[noteIndex], audioCtx.currentTime);
-
-            gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.8);
-
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-
-            osc.start();
-            osc.stop(audioCtx.currentTime + 1.8);
-
-            noteIndex = (noteIndex + 1) % notes.length;
-            setTimeout(playNextNote, 2000);
-        }
-
-        playNextNote();
-    } catch (e) {
-        console.log("Web Audio API Error", e);
+function toggleAudio() {
+    if (!bgAudio) bgAudio = document.getElementById('bgMusic');
+    if (bgAudio && !bgAudio.paused) {
+        pauseAudio();
+    } else {
+        playAudio(false);
     }
 }
 
-function stopRapunzelMelody() {
-    if (audioCtx) {
-        audioCtx.close();
-        audioCtx = null;
+function playAudio(isSilentAutoplayAttempt = false) {
+    if (!bgAudio) bgAudio = document.getElementById('bgMusic');
+    const audioBtn = document.getElementById('audioToggleBtn');
+    const audioIcon = document.getElementById('audioIcon');
+
+    if (bgAudio) {
+        const playPromise = bgAudio.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                isAudioPlaying = true;
+                if (audioBtn) audioBtn.classList.add('playing');
+                if (audioIcon) audioIcon.className = 'fas fa-compact-disc fa-spin';
+                if (!isSilentAutoplayAttempt) {
+                    showToast("🎶 Reproduciendo Música Mágica...");
+                }
+            }).catch(error => {
+                console.log("Autoplay restricted until user gesture:", error);
+                isAudioPlaying = false;
+                if (audioBtn) audioBtn.classList.remove('playing');
+                if (audioIcon) audioIcon.className = 'fas fa-music';
+            });
+        }
+    }
+}
+
+function pauseAudio() {
+    if (!bgAudio) bgAudio = document.getElementById('bgMusic');
+    const audioBtn = document.getElementById('audioToggleBtn');
+    const audioIcon = document.getElementById('audioIcon');
+
+    if (bgAudio) {
+        bgAudio.pause();
+        isAudioPlaying = false;
+        if (audioBtn) audioBtn.classList.remove('playing');
+        if (audioIcon) audioIcon.className = 'fas fa-music';
+        showToast("🔇 Música Pausada");
     }
 }
 
@@ -318,11 +331,8 @@ function openInvitationFromLantern(e) {
     }
     document.body.classList.remove('overlay-active');
     
-    // Attempt auto-play music
-    const audioBtn = document.getElementById('audioToggleBtn');
-    if (audioBtn && !audioBtn.classList.contains('playing')) {
-        audioBtn.click();
-    }
+    // Play background music upon touching lantern
+    playAudio(false);
 }
 
 function openModal(modalId) {

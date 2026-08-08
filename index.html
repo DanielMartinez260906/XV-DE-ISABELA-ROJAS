@@ -18,6 +18,14 @@
 </head>
 <body class="overlay-active">
 
+    <!-- BACKGROUND MUSIC AUDIO & FLOATING CONTROLLER -->
+    <audio id="bgMusic" src="assets/cancion.mp3" loop preload="auto"></audio>
+    <div class="audio-control">
+        <button id="audioToggleBtn" class="audio-btn" aria-label="Control de Música">
+            <i id="audioIcon" class="fas fa-music"></i>
+        </button>
+    </div>
+
     <!-- ENTRANCE OVERLAY WITH PULSATING RAPUNZEL LANTERN -->
     <div id="entranceOverlay" class="entrance-overlay" onclick="openInvitationFromLantern(event)">
         <div class="lantern-entrance-card">
