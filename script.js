@@ -78,10 +78,10 @@ function initLanternCanvas() {
             const l = lanternParticles[i];
             l.y -= l.speedY;
             l.x += Math.sin(l.wobble) * l.speedX;
-            l.wobble += 0.03;
-            l.opacity -= 0.005;
+            l.wobble += 0.035;
+            l.opacity -= 0.0055;
 
-            if (l.opacity <= 0 || l.y < -50) {
+            if (l.opacity <= 0 || l.y < -60) {
                 lanternParticles.splice(i, 1);
                 continue;
             }
@@ -89,21 +89,36 @@ function initLanternCanvas() {
             canvasCtx.save();
             canvasCtx.translate(l.x, l.y);
 
-            // Glow
-            const gradient = canvasCtx.createRadialGradient(0, 0, 0, 0, 0, l.size * 3);
-            gradient.addColorStop(0, `rgba(251, 191, 36, ${l.opacity})`);
-            gradient.addColorStop(0.5, `rgba(217, 119, 6, ${l.opacity * 0.5})`);
-            gradient.addColorStop(1, 'rgba(217, 119, 6, 0)');
+            // 1. Soft Ambient Outer Glow (Warm Gold/Amber)
+            const outerGlow = canvasCtx.createRadialGradient(0, 0, 0, 0, 0, l.size * 3.5);
+            outerGlow.addColorStop(0, `rgba(254, 240, 138, ${l.opacity * 0.95})`);
+            outerGlow.addColorStop(0.4, `rgba(245, 158, 11, ${l.opacity * 0.65})`);
+            outerGlow.addColorStop(1, 'rgba(217, 119, 6, 0)');
 
-            canvasCtx.fillStyle = gradient;
+            canvasCtx.fillStyle = outerGlow;
             canvasCtx.beginPath();
-            canvasCtx.arc(0, 0, l.size * 3, 0, Math.PI * 2);
+            canvasCtx.arc(0, 0, l.size * 3.5, 0, Math.PI * 2);
             canvasCtx.fill();
 
-            // Body
-            canvasCtx.fillStyle = `rgba(254, 240, 138, ${l.opacity * 0.95})`;
+            // 2. Rapunzel Lantern Paper Body
+            canvasCtx.fillStyle = `rgba(254, 243, 199, ${l.opacity * 0.95})`;
             canvasCtx.beginPath();
-            canvasCtx.roundRect(-l.size * 0.6, -l.size, l.size * 1.2, l.size * 1.6, [l.size * 0.2]);
+            if (canvasCtx.roundRect) {
+                canvasCtx.roundRect(-l.size * 0.65, -l.size, l.size * 1.3, l.size * 1.6, [l.size * 0.25]);
+            } else {
+                canvasCtx.rect(-l.size * 0.65, -l.size, l.size * 1.3, l.size * 1.6);
+            }
+            canvasCtx.fill();
+
+            // 3. Inner Warm Flame Core
+            const flameGlow = canvasCtx.createRadialGradient(0, l.size * 0.2, 0, 0, l.size * 0.2, l.size * 0.55);
+            flameGlow.addColorStop(0, `rgba(255, 255, 255, ${l.opacity})`);
+            flameGlow.addColorStop(0.6, `rgba(251, 191, 36, ${l.opacity * 0.9})`);
+            flameGlow.addColorStop(1, `rgba(217, 119, 6, 0)`);
+
+            canvasCtx.fillStyle = flameGlow;
+            canvasCtx.beginPath();
+            canvasCtx.arc(0, l.size * 0.2, l.size * 0.55, 0, Math.PI * 2);
             canvasCtx.fill();
 
             canvasCtx.restore();
@@ -115,27 +130,58 @@ function initLanternCanvas() {
     render();
 }
 
-/* Trigger Lantern Burst on Button Clicks */
+/* Trigger Sky Lantern Burst with Short Navigation Delay on Button Clicks */
 function initButtonLanternEffects() {
     document.addEventListener('click', (e) => {
-        const targetBtn = e.target.closest('button, .btn, a.btn, input[type="button"]');
-        if (targetBtn) {
-            spawnLanternBurst(e.clientX || window.innerWidth / 2, e.clientY || window.innerHeight / 2);
+        const targetBtn = e.target.closest('button, .btn, a.btn, a[href], input[type="button"]');
+        if (!targetBtn) return;
+
+        const rect = targetBtn.getBoundingClientRect();
+        const x = e.clientX || rect.left + rect.width / 2;
+        const y = e.clientY || rect.top + rect.height / 2;
+
+        // Button Visual Glow Pulse
+        targetBtn.classList.remove('lantern-click-pulse');
+        void targetBtn.offsetWidth;
+        targetBtn.classList.add('lantern-click-pulse');
+
+        // Spawn Lantern Burst
+        spawnLanternBurst(x, y, 22);
+
+        // If clicking an external <a> link (Google Maps, Waze, etc.), delay navigation so lanterns float up!
+        const href = targetBtn.getAttribute('href');
+        if (targetBtn.tagName.toLowerCase() === 'a' && href && !href.startsWith('#') && !href.startsWith('javascript:')) {
+            if (!targetBtn.dataset.lanternNavigating) {
+                e.preventDefault();
+                e.stopPropagation();
+                targetBtn.dataset.lanternNavigating = "true";
+
+                const target = targetBtn.getAttribute('target') || '_self';
+
+                setTimeout(() => {
+                    delete targetBtn.dataset.lanternNavigating;
+                    if (target === '_blank') {
+                        window.open(href, '_blank');
+                    } else {
+                        window.location.href = href;
+                    }
+                }, 750); // 750ms delay to enjoy sky lanterns floating into the sky!
+            }
         }
-    });
+    }, true);
 }
 
-function spawnLanternBurst(startX, startY, customCount = 12) {
+function spawnLanternBurst(startX, startY, customCount = 20) {
     const burstCount = customCount;
     for (let i = 0; i < burstCount; i++) {
         lanternParticles.push({
-            x: startX + (Math.random() - 0.5) * 140,
-            y: startY + (Math.random() - 0.5) * 60,
-            size: Math.random() * 12 + 8,
-            speedY: Math.random() * 3.5 + 2.0,
-            speedX: (Math.random() - 0.5) * 1.5,
+            x: startX + (Math.random() - 0.5) * 160,
+            y: startY + (Math.random() - 0.5) * 50,
+            size: Math.random() * 13 + 8,
+            speedY: Math.random() * 3.6 + 2.2,
+            speedX: (Math.random() - 0.5) * 1.8,
             wobble: Math.random() * Math.PI * 2,
-            opacity: Math.random() * 0.4 + 0.6
+            opacity: Math.random() * 0.35 + 0.65
         });
     }
 }
@@ -233,7 +279,7 @@ function initRSVP() {
     }
 
     if (sendBtn) {
-        sendBtn.addEventListener('click', () => {
+        sendBtn.addEventListener('click', (e) => {
             const name = document.getElementById('guestName').value.trim();
             const passes = document.getElementById('guestPasses').value;
             const note = document.getElementById('guestNote').value.trim();
@@ -243,12 +289,18 @@ function initRSVP() {
                 return;
             }
 
+            const x = e.clientX || window.innerWidth / 2;
+            const y = e.clientY || window.innerHeight / 2;
+            spawnLanternBurst(x, y, 25);
+            showToast("✨ Enviando confirmación por WhatsApp...");
+
             const message = `¡Hola Isabella! 👑✨%0A Confirmación de Asistencia a mis 15 Años%0A%0A👤 *Nombre:* ${encodeURIComponent(name)}%0A👥 *Asistentes:* ${passes} persona(s)%0A💬 *Mensaje:* ${encodeURIComponent(note || '¡Nos vemos en la fiesta!')}`;
             const whatsappUrl = `https://api.whatsapp.com/send?phone=573235005515&text=${message}`;
 
-            window.open(whatsappUrl, '_blank');
-            closeModal('rsvpModal');
-            showToast("✨ ¡Gracias por confirmar tu asistencia! ✨");
+            setTimeout(() => {
+                window.open(whatsappUrl, '_blank');
+                closeModal('rsvpModal');
+            }, 750);
         });
     }
 }
@@ -316,8 +368,8 @@ function spawnFullScreenLanternSwarm(count = 85) {
             x: Math.random() * width,
             y: height * (0.3 + Math.random() * 0.9),
             size: Math.random() * 14 + 7,
-            speedY: Math.random() * 2.8 + 1.5,
-            speedX: (Math.random() - 0.5) * 1.8,
+            speedY: Math.random() * 3.0 + 1.8,
+            speedX: (Math.random() - 0.5) * 2.0,
             wobble: Math.random() * Math.PI * 2,
             opacity: Math.random() * 0.4 + 0.6
         });
@@ -325,6 +377,12 @@ function spawnFullScreenLanternSwarm(count = 85) {
 }
 
 function openInvitationFromLantern(e) {
+    // Spawn lantern swarm across the viewport
+    spawnFullScreenLanternSwarm(60);
+    const clickX = e && e.clientX ? e.clientX : window.innerWidth / 2;
+    const clickY = e && e.clientY ? e.clientY : window.innerHeight / 2;
+    spawnLanternBurst(clickX, clickY, 30);
+
     const overlay = document.getElementById('entranceOverlay');
     if (overlay) {
         overlay.classList.add('opened');
@@ -337,7 +395,12 @@ function openInvitationFromLantern(e) {
 
 function openModal(modalId) {
     const modal = document.getElementById(modalId);
-    if (modal) modal.classList.add('active');
+    spawnLanternBurst(window.innerWidth / 2, window.innerHeight * 0.55, 20);
+
+    // Smooth delay before popping modal up so user sees lanterns fly up!
+    setTimeout(() => {
+        if (modal) modal.classList.add('active');
+    }, 450);
 }
 
 function closeModal(modalId) {
@@ -352,19 +415,29 @@ function submitSongSuggestion() {
         return;
     }
     const song = input.value.trim();
+    spawnLanternBurst(window.innerWidth / 2, window.innerHeight * 0.6, 25);
     showToast(`🎶 ¡Gracias! "${song}" agregada a la lista del DJ`);
     input.value = "";
-    closeModal('songModal');
+    
+    setTimeout(() => {
+        closeModal('songModal');
+    }, 600);
 }
 
 function copyEnvelopeInfo() {
+    spawnLanternBurst(window.innerWidth / 2, window.innerHeight * 0.65, 22);
     navigator.clipboard.writeText("Lluvia de Sobres - XV de Isabella Rojas Zuluaga");
     showToast("📋 ¡Detalles copiados al portapapeles!");
 }
 
 function addToCalendar() {
     const calendarUrl = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=XV+de+Isabella+Rojas+Zuluaga&dates=20261023T190000/20261024T030000&details=Celebración+de+15+Años+al+estilo+Rapunzel&location=Eventos+Prestige+Bello+Antioquia";
-    window.open(calendarUrl, '_blank');
+    spawnLanternBurst(window.innerWidth / 2, window.innerHeight * 0.55, 25);
+    showToast("✨ Agendando fecha en tu calendario...");
+
+    setTimeout(() => {
+        window.open(calendarUrl, '_blank');
+    }, 700);
 }
 
 function showToast(msg) {

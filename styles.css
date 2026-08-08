@@ -571,6 +571,25 @@ body.overlay-active {
     margin-top: 15px;
 }
 
+/* Button Click Lantern Glow Animation */
+.lantern-click-pulse {
+    animation: buttonLanternPulse 0.75s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+@keyframes buttonLanternPulse {
+    0% {
+        transform: scale(0.92);
+        box-shadow: 0 0 25px rgba(251, 191, 36, 0.9), 0 0 50px rgba(217, 119, 6, 0.6);
+    }
+    40% {
+        transform: scale(1.05);
+        box-shadow: 0 0 35px rgba(251, 191, 36, 1), 0 0 65px rgba(245, 158, 11, 0.8);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 .black-tag-pill {
     display: inline-block;
     background: #000000;
