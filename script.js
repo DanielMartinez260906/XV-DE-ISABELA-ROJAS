@@ -408,20 +408,19 @@ function closeModal(modalId) {
     if (modal) modal.classList.remove('active');
 }
 
-function submitSongSuggestion() {
-    const input = document.getElementById('songName');
-    if (!input || !input.value.trim()) {
-        showToast("⚠️ Por favor escribe el nombre de la canción");
-        return;
-    }
-    const song = input.value.trim();
-    spawnLanternBurst(window.innerWidth / 2, window.innerHeight * 0.6, 25);
-    showToast(`🎶 ¡Gracias! "${song}" agregada a la lista del DJ`);
-    input.value = "";
-    
+const SPOTIFY_PLAYLIST_URL = "https://open.spotify.com/playlist/0SKa3j2x4oorvC7YjI1vzW?si=QVipX_AGQ3qvtdgV4Zmxiw&utm_source=whatsapp&pt=0208cfda6507f56d4c25cb467c599fc8&pi=OMtEmCWCQSyAq";
+
+function openSpotifyPlaylist() {
+    spawnLanternBurst(window.innerWidth / 2, window.innerHeight * 0.55, 25);
+    showToast("🎶 Abriendo la playlist de Spotify...");
     setTimeout(() => {
-        closeModal('songModal');
-    }, 600);
+        window.open(SPOTIFY_PLAYLIST_URL, '_blank');
+    }, 700);
+}
+
+function submitSongSuggestion() {
+    openSpotifyPlaylist();
+    closeModal('songModal');
 }
 
 function copyEnvelopeInfo() {

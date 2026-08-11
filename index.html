@@ -187,13 +187,13 @@
         <section class="bg-story-section section-4" id="section-4">
             <!-- Sugerir Canción -->
             <div class="floating-text-block">
-                <h2 class="section-title"><i class="fas fa-compact-disc"></i> Sugerir Canción</h2>
+                <h2 class="section-title"><i class="fab fa-spotify" style="color: #1db954;"></i> Sugerir Canción</h2>
                 <p class="section-desc" style="margin-bottom: 15px;">
-                    ¡Queremos bailar tus canciones favoritas! ¿Qué tema no puede faltar en la fiesta?
+                    ¡Queremos bailar tus canciones favoritas! Agrega tu tema directamente a nuestra playlist colaborativa de Spotify para la fiesta.
                 </p>
-                <button class="btn btn-purple" onclick="openModal('songModal')">
-                    <i class="fas fa-music"></i> Sugerir Canción para el DJ
-                </button>
+                <a href="https://open.spotify.com/playlist/0SKa3j2x4oorvC7YjI1vzW?si=QVipX_AGQ3qvtdgV4Zmxiw&utm_source=whatsapp&pt=0208cfda6507f56d4c25cb467c599fc8&pi=OMtEmCWCQSyAq" target="_blank" rel="noopener noreferrer" class="btn btn-spotify">
+                    <i class="fab fa-spotify"></i> Sugerir Canción en Spotify
+                </a>
             </div>
 
             <!-- Lluvia de Sobres -->
@@ -284,17 +284,13 @@
     <div id="songModal" class="modal-overlay">
         <div class="modal-card">
             <button class="modal-close" onclick="closeModal('songModal')">&times;</button>
-            <h3 class="modal-title"><i class="fas fa-compact-disc"></i> Sugerir Canción</h3>
-            <p class="dress-desc-light" style="margin-bottom: 12px;">
-                ¡Escribe la canción y artista que quieres escuchar en la pista de baile!
+            <h3 class="modal-title"><i class="fab fa-spotify" style="color: #1db954;"></i> Sugerir Canción</h3>
+            <p class="dress-desc-light" style="margin-bottom: 15px;">
+                ¡Agrega tus canciones favoritas directamente a nuestra playlist colaborativa de Spotify para que suenen en la fiesta!
             </p>
-            <div class="form-group">
-                <label class="form-label" for="songName">Nombre de la Canción y Artista *</label>
-                <input type="text" id="songName" class="form-control" placeholder="Ej. Veo en ti la luz - Chayanne / Bad Bunny" required>
-            </div>
-            <button class="btn btn-purple" style="width: 100%; margin-top: 10px;" onclick="submitSongSuggestion()">
-                <i class="fas fa-paper-plane"></i> Enviar Sugerencia
-            </button>
+            <a href="https://open.spotify.com/playlist/0SKa3j2x4oorvC7YjI1vzW?si=QVipX_AGQ3qvtdgV4Zmxiw&utm_source=whatsapp&pt=0208cfda6507f56d4c25cb467c599fc8&pi=OMtEmCWCQSyAq" target="_blank" rel="noopener noreferrer" class="btn btn-spotify" style="width: 100%; font-size: 1rem;">
+                <i class="fab fa-spotify"></i> Abrir Playlist en Spotify
+            </a>
         </div>
     </div>
 
