@@ -408,7 +408,7 @@ function closeModal(modalId) {
     if (modal) modal.classList.remove('active');
 }
 
-const SPOTIFY_PLAYLIST_URL = "https://open.spotify.com/playlist/0SKa3j2x4oorvC7YjI1vzW?si=QVipX_AGQ3qvtdgV4Zmxiw&utm_source=whatsapp&pt=0208cfda6507f56d4c25cb467c599fc8&pi=OMtEmCWCQSyAq";
+const SPOTIFY_PLAYLIST_URL = "https://open.spotify.com/playlist/5S4g4cwfbyivEqbVlzv1gO?si=BYsHZE70TK69IzgmpFJ0lw&utm_source=whatsapp&pi=EII-8hF0Qjepi";
 
 function openSpotifyPlaylist() {
     spawnLanternBurst(window.innerWidth / 2, window.innerHeight * 0.55, 25);
