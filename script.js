@@ -408,7 +408,7 @@ function closeModal(modalId) {
     if (modal) modal.classList.remove('active');
 }
 
-const SPOTIFY_PLAYLIST_URL = "https://open.spotify.com/playlist/5S4g4cwfbyivEqbVlzv1gO?si=BYsHZE70TK69IzgmpFJ0lw&utm_source=whatsapp&pi=EII-8hF0Qjepi";
+const SPOTIFY_PLAYLIST_URL = "https://open.spotify.com/playlist/7oMr9Bv8NQRqlJ2l2sepIS?si=ntyFPhAkRZWbvAbQTDLUYw&utm_source=whatsapp&pi=UUZcOTsWRKuSK";
 
 function openSpotifyPlaylist() {
     spawnLanternBurst(window.innerWidth / 2, window.innerHeight * 0.55, 25);
